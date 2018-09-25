@@ -1,0 +1,33 @@
+{
+  "name": "nodeqqbot",
+  "version": "0.0.1",
+  "description": "基于Node的QQ",
+  "main": "./bin/app.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhelinCheng/NodeQQbot.git"
+  },
+  "keywords": [
+    "QQ"
+  ],
+  "author": "Zhelin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZhelinCheng/NodeQQbot/issues"
+  },
+  "homepage": "https://github.com/ZhelinCheng/NodeQQbot#readme",
+  "bin": {
+    "nodeqqbot": "./bin/app.js"
+  },
+  "dependencies": {
+    "commander": "^2.18.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
+  }
+}
