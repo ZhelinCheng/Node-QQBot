@@ -37,8 +37,19 @@ function outLog (str) {
   console.log(`[${formatTimeStamp(new Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}] ${str}`)
 }
 
+// hash33计算
+function hash33(t) {
+  let e = 0;
+  let i = 0;
+
+  for (let n = t.length; i < n; ++i)
+    e += (e << 5) + t.charCodeAt(i);
+  return 2147483647 & e
+}
+
 module.exports = {
   formatTimeStamp,
   randomNumBoth,
+  hash33,
   outLog
 }

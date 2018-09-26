@@ -50,6 +50,9 @@ if (require.main === module) {
         pt_3rd_aid: 0
       }
     }, {}, 'qrcode')
+
+
+    console.log(data, res)
   })()
 }
 
