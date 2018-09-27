@@ -9,11 +9,14 @@ const api = require('../api')
 const {outLog,hash33} = require('./tools')
 
 // 获取二维码及qrsig
-async function getQrCode () {
+async function getQrCode (cookie) {
   outLog('获取登陆二维码')
   return new Promise((resolve, reject) => {
     let qrsig = null
-    let body = request(`${api.getQrCode}?appid=501004106&e=2&l=M&s=3&d=72&v=4&t=${Math.random()}&daid=164&pt_3rd_aid=0`, (err, res, body) => {
+    let body = request({
+      url: `${api.getQrCode}?appid=501004106&e=2&l=M&s=3&d=72&v=4&t=${Math.random()}&daid=164&pt_3rd_aid=0`,
+      cookie
+    }, (err, res, body) => {
       if (err) {
         outLog('二维码获取错误')
         return reject(err)
@@ -29,6 +32,7 @@ async function getQrCode () {
     })
 
     body.on('close', () => {
+      outLog('二维码获取成功')
       resolve({
         qrsig
       })
