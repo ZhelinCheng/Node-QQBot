@@ -16,7 +16,6 @@ module.exports = async function () {
     ...xLoginCookie,
   }
 
-  console.log()
 
   for (let i in CookiesObj) {
     CookiesStr += `${i}=${CookiesObj[i]};`

@@ -5,7 +5,7 @@
 
 const rq = require('request-promise-native')
 
-const request = async function (params, headers = {}, type = 'json') {
+const request = async function (params, headers = {}, type = 'body') {
   let defaultHeaders = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Accept-Language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,ko;q=0.7',
@@ -15,16 +15,16 @@ const request = async function (params, headers = {}, type = 'json') {
 
   let data = await rq({
     ...params,
+    resolveWithFullResponse: true,
+    json: true,
     headers: {
       ...defaultHeaders,
       ...headers
     }
   })
 
-  //console.log(data)
-
-  if (type === 'json') {
-    data = JSON.parse(data)
+  if (type === 'body') {
+    data = data.body
   }
 
   return data
@@ -34,25 +34,11 @@ module.exports = request
 
 if (require.main === module) {
   (async () => {
-    const fs = require('fs')
     let data = await request({
-      url: 'https://ssl.ptlogin2.qq.com/ptqrshow',
-      method: 'GET',
-      params: {
-        appid: '501004106',
-        e: 2,
-        l: 'M',
-        s: 3,
-        d: 72,
-        v: 4,
-        t: Math.random().toString().slice(0, 18),
-        daid: 164,
-        pt_3rd_aid: 0
-      }
-    }, {}, 'qrcode')
+      url: 'https://api.laimeiyun.cn/v1/member/info/all'
+    }, {}, '1')
 
-
-    console.log(data, res)
+    console.log(data.headers)
   })()
 }
 

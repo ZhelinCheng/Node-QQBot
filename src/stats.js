@@ -32,9 +32,6 @@ function q(c, a, b) {
   // console.log(s1)
 }
 
-
-console.log(()())
-
 module.exports = {
   si: function() {
     var a = p("pgv_si");
