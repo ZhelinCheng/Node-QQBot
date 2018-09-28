@@ -14,9 +14,34 @@ async function qrCodeExpired (qrsig, loginSig, cookie) {
     method: 'GET',
   }, {
     cookie
-  }, 'jsonp')
+  }, 'res')
 
-  return data.replace(/(ptuiCB\(|\)$|')/img, '').split(',')
+  let cookies = data.headers['set-cookie'];
+  let cookiesArr = {}
+
+  if (cookies) {
+    cookies = cookies.join('');
+    cookies = cookies.split(';')
+    for (let i in cookies) {
+      let item = cookies[i].trim()
+      // console.log(item)
+      if (/^(PATH|DOMAIN|Expires)/img.test(item) || !item) {
+        continue;
+      }
+
+      item = item.split('=')
+
+      cookiesArr[item[0]] = item[1]
+    }
+
+    let status = data.body.replace(/(ptuiCB\(|\)$|')/img, '').split(',')
+
+    return {
+      cookies: cookiesArr,
+      status
+    }
+  }
+  return data.body.replace(/(ptuiCB\(|\)$|')/img, '').split(',')
 }
 
 module.exports = qrCodeExpired

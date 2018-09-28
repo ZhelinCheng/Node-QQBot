@@ -14,28 +14,42 @@ const init = require('./init');
   let Cookies = await init()
 
   let initTime = setInterval(async () => {
-    let data = await qrCodeExp(Cookies.obj['qrsig'], Cookies.obj['pt_login_sig'], Cookies.str)
-    outLog(data[4])
-    switch (data[0]) {
-      case '65':
-        // 二维码失效
-        Cookies = await init()
-        break
-      case '0':
-        // 登陆成功
-        clearInterval(initTime)
-        let loginRedirectCookie =  await loginRedirect(data[2], Cookies.str)
-        Cookies.obj = Object.assign(Cookies.obj, loginRedirectCookie)
+    try {
+      let data = await qrCodeExp(Cookies.obj['qrsig'], Cookies.obj['pt_login_sig'], Cookies.str)
 
-        console.log(Cookies.obj)
-        Cookies.red = '';
-        for (let k in loginRedirectCookie) {
-          Cookies.red += `${k}=${loginRedirectCookie[k]};`
-        }
+      console.log(1, !(data instanceof Array))
 
-        console.log(await getVfwebqq(Cookies.red))
-        break
+      if (!(data instanceof Array)) {
+        let cok = data.cookies;
+        Cookies.obj = Object.assign(Cookies.obj, cok)
+        data = data.status;
+      }
+
+
+      outLog(data[4])
+      switch (data[0]) {
+        case '65':
+          // 二维码失效
+          Cookies = await init()
+          break
+        case '0':
+          // 登陆成功
+          clearInterval(initTime)
+          let loginRedirectCookie =  await loginRedirect(data[2], Cookies.str)
+          Cookies.obj = Object.assign(Cookies.obj, loginRedirectCookie)
+
+          console.log(Cookies.obj)
+          Cookies.red = '';
+          for (let k in loginRedirectCookie) {
+            Cookies.red += `${k}=${loginRedirectCookie[k]};`
+          }
+
+          console.log(await getVfwebqq(Cookies.red))
+          break
+      }
+    } catch (e) {
+      clearInterval(initTime)
     }
-  }, 5000)
+  }, 3000)
 
 })();
