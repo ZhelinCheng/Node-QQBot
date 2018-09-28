@@ -17,8 +17,6 @@ const init = require('./init');
     try {
       let data = await qrCodeExp(Cookies.obj['qrsig'], Cookies.obj['pt_login_sig'], Cookies.str)
 
-      console.log(1, !(data instanceof Array))
-
       if (!(data instanceof Array)) {
         let cok = data.cookies;
         Cookies.obj = Object.assign(Cookies.obj, cok)
@@ -38,11 +36,22 @@ const init = require('./init');
           let loginRedirectCookie =  await loginRedirect(data[2], Cookies.str)
           Cookies.obj = Object.assign(Cookies.obj, loginRedirectCookie)
 
-          console.log(Cookies.obj)
+          loginRedirectCookie = {
+            ...loginRedirectCookie,
+            ptisp: Cookies.obj['ptisp'],
+            RK: Cookies.obj['RK'],
+            ptcz: Cookies.obj['ptcz'],
+            pgv_si: Cookies.obj['pgv_si'],
+            pgv_pvi: Cookies.obj['pgv_pvi']
+          }
+
+          console.log(loginRedirectCookie)
           Cookies.red = '';
           for (let k in loginRedirectCookie) {
             Cookies.red += `${k}=${loginRedirectCookie[k]};`
           }
+
+          console.log(Cookies.red)
 
           console.log(await getVfwebqq(Cookies.red))
           break

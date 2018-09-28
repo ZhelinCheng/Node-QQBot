@@ -33,17 +33,17 @@ function q(c, a, b) {
 }
 
 module.exports = {
-  si: function() {
+  pgv_si: (function() {
     var a = p("pgv_si");
     a || (a = r("s"),
       q("pgv_si", a));
     return a
-  },
+  })(),
 
-  pvi: function () {
+  pgv_pvi: (function () {
     let a = {ty: 1};
     let b = p("pgv_pvi");
     b || (a.ty = 0, b = r(), q("pgv_pvi", b, "Sun, 18 Jan 2038 00:00:00 GMT;"));
     return b
-  }
+  })()
 }

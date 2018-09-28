@@ -13,11 +13,13 @@ async function qrCodeExpired (qrsig, loginSig, cookie) {
     url: `${api.qrCodeExp}?u1=https%3A%2F%2Fweb2.qq.com%2Fproxy.html&ptqrtoken=${hash33(qrsig)}&ptredirect=0&h=1&t=1&g=1&from_ui=1&ptlang=2052&action=1-1-${new Date().getTime()}&js_ver=10284&js_type=1&login_sig=${loginSig}&pt_uistyle=40&aid=501004106&daid=164&mibao_css=m_webqq&`,
     method: 'GET',
   }, {
-    cookie
+    cookie,
+    referer: 'https://s.web2.qq.com/proxy.html?v=20130916001&callback=1&id=1'
   }, 'res')
 
   let cookies = data.headers['set-cookie'];
   let cookiesArr = {}
+  let status = data.body.replace(/(ptuiCB\(|\)$|')/img, '').split(',')
 
   if (cookies) {
     cookies = cookies.join('');
@@ -31,17 +33,20 @@ async function qrCodeExpired (qrsig, loginSig, cookie) {
 
       item = item.split('=')
 
+      if (!item[0] || !item[1]) {
+        continue;
+      }
+
       cookiesArr[item[0]] = item[1]
     }
-
-    let status = data.body.replace(/(ptuiCB\(|\)$|')/img, '').split(',')
 
     return {
       cookies: cookiesArr,
       status
     }
+  } else {
+    return status
   }
-  return data.body.replace(/(ptuiCB\(|\)$|')/img, '').split(',')
 }
 
 module.exports = qrCodeExpired
