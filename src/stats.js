@@ -2,8 +2,6 @@
  * Created by ChengZheLin on 2018/9/27.
  */
 
-'use strict'
-
 // 判断这两个cookie是否存在，如果不存在则为null
 function p() {
   return ''
@@ -16,7 +14,7 @@ function r(c) {
 
 // 调用 下列方法进行cookie生成
 function q(c, a, b) {
-  var d = 'xui.ptlogin2.qq.com'
+  let d = 'xui.ptlogin2.qq.com'
     , e = {
     "com.cn": 1,
     "net.cn": 1,
@@ -34,7 +32,7 @@ function q(c, a, b) {
 
 module.exports = {
   pgv_si: (function() {
-    var a = p("pgv_si");
+    let a = p("pgv_si");
     a || (a = r("s"),
       q("pgv_si", a));
     return a

@@ -3,7 +3,7 @@
  */
 
 const api = require('../api')
-const rq = require('../bin/require')
+const rq = require('../bin/request')
 const { hash33 } = require('./tools')
 
 // 验证二维码是否过期
